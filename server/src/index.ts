@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 import createApp from './utils/create-app';
+import './init.database';
 
 config();
 
