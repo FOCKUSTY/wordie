@@ -1,21 +1,11 @@
 import { Link } from 'react-router-dom';
+import Layout from '../components/layout/layout';
+
 import '../styles/home.css';
 
-const App = () => {
+const Page = () => {
     return (
-        <div className="home">
-            <header>
-                <div className="title">
-                    <div className="links">
-                        <a href="https://github.com/FOCKUSTY/wordie">Github</a>
-                        <a href="https://discord.gg/5MJrRjzPec">Discord</a>
-                        <a href="https://t.me/BottomlessHat">Telegram</a>
-                    </div>
-
-                    <h1>Wordie</h1>
-                </div>
-            </header>
-
+        <div className="page">
             <main>
                 <div className="rules">
                     <ul>
@@ -31,7 +21,8 @@ const App = () => {
                         <li>Игра расчитано на веселую и долгую игру, выбыть нельзя, если вы еще можете придумывать слова</li>
                     </ul>
                 </div>
-                <div className="nav">
+
+                <div className="nav noselect">
                     <div className='links'>
                         <Link className='link' to={"/play/bot"}><span>Играть с ботом</span></Link>
                         <Link className='link' to={"/play/player"}><span>Играть с человеком</span></Link>
@@ -42,4 +33,8 @@ const App = () => {
     );
 };
 
-export default App;
+const Home = () => {
+    return <Layout>{Page()}</Layout>
+}
+
+export default Home;

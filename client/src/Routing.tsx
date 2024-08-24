@@ -4,12 +4,14 @@ import {
     Routes
 } from 'react-router-dom';
 
-import App from './pages/home';
+import Home from './pages/home';
+import PlayWithBot from './pages/play-with-bot';
 
 const Main = () => (
 	<BrowserRouter basename='/'>
 		<Routes>
-            <Route path='/' Component={App}></Route>
+            <Route path='/' Component={Home}></Route>
+            <Route path='/play/bot' Component={PlayWithBot}></Route>
 		</Routes>
 	</BrowserRouter>
 );
