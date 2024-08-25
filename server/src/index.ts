@@ -1,15 +1,12 @@
 import { config } from 'dotenv';
-import createApp from './utils/create-app';
+import App from './utils/app';
 import './init.database';
 
 config();
 
-const PORT = process.env.PORT || 3001;
-
 const main = async () => {
     try {
-        const app = createApp();
-        app.listen(PORT, () => console.log(`Запускаю на порте ${PORT}\nhttp://localhost:${PORT}`));
+        new App().listen();
     }
     catch (err) {
         console.error(err);

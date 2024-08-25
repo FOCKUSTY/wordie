@@ -1,15 +1,18 @@
-import GameApi from "../api/game.api";
 import Layout from "../components/layout/layout";
+import GameApi from "../api/game.api";
 
 const game = new GameApi();
 
 const Page = () => {
-    game.postWord('Терка');
-    console.log(1);
+    const clickHandler = async () => {
+        await game.postWord('Терка');
+    };
 
     return (
         <div className="page">
-            
+            <main>
+                <button onClick={clickHandler}></button>
+            </main>
         </div>
     );
 };

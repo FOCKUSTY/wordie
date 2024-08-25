@@ -1,7 +1,7 @@
 import Database from "../database/logic/word.logic";
 import { Random } from 'random-js';
 
-import Colors, { setDefaultColors } from "../types/colors.enum";
+import Colors from "../types/colors.enum";
 import Printer from "../types/printer.class";
 
 const data = new Database();
@@ -64,10 +64,11 @@ class Game {
         this.setNotUsedWord(word);
         this.setUsedWords([word]);
         
-        if(this._addLetterToDB) data.setWords([word]);
+        if(this._addLetterToDB)
+            data.setWords([word]);
     };
 
-    public getNotUsedWord = (word: string): string => {
+    public getNotUsedWord = (word: string): { name: string, text: string } => {
         const lastIndex = word.length-1;
         const lastLetter = word[lastIndex];
 
@@ -101,13 +102,13 @@ class Game {
     
             this.setWord(randomWord);
 
-            const randomWordArray = randomWord.split('');
-            randomWordArray[0] = randomWordArray[0].toUpperCase();
-
             const lastLetter = this.getLastLetter(randomWord);
             this._lastLetter = lastLetter;
 
-            return setDefaultColors('GameBot', `${randomWordArray.join('')}, тебе на "${lastLetter}"`, [Colors.red, Colors.green]);
+            return {
+                name: "Bot",
+                text: `${randomWord}, тебе на "${lastLetter}"`
+            };
         };
     };
 

@@ -103,7 +103,13 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
+
+# React build
 build
+build/
+/build
+/client/build
+/client/build/
 
 # Gatsby files
 .cache/
