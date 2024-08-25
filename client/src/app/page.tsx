@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
-import Layout from '../components/layout/layout';
+'use client';
 
-import '../styles/home.css';
+import { useRouter } from "next/navigation";
+import styles from "../styles/home.module.css";
 
 const Page = () => {
+    const router = useRouter();
+
     return (
         <div className="page">
-            <main>
-                <div className="rules">
+            <main id={styles.main}>
+                <div className={styles.rules}>
                     <ul>
                         <li>Количество человек: от двух</li>
                         <li>Начало игры: Какой-либо из людей начинает ход, загадывая любое слово</li>
@@ -22,10 +24,14 @@ const Page = () => {
                     </ul>
                 </div>
 
-                <div className="nav noselect">
-                    <div className='links'>
-                        <Link className='link' to={"/play/bot"}><span>Играть с ботом</span></Link>
-                        <Link className='link' to={"/play/player"}><span>Играть с человеком</span></Link>
+                <div className={`${styles.nav} noselect`}>
+                    <div className={styles.links}>
+                        <div>
+                            <button className={styles.link} onClick={() => router.push('/play/bot')}><span>Играть с ботом</span></button>
+                        </div>
+                        <div>
+                            <button className={styles.link} onClick={() => router.push('/play/player')}><span>Играть с человеком</span></button>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -33,8 +39,4 @@ const Page = () => {
     );
 };
 
-const Home = () => {
-    return <Layout>{Page()}</Layout>
-}
-
-export default Home;
+export default Page;

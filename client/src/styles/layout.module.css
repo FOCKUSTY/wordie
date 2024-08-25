@@ -3,13 +3,13 @@
     flex-direction: column;
     gap: 20px;
 
-    height: 100%;
     width: 100%;
+    height: 100%;
 }
 
-header, footer {
-    background-color: #16191d;
-    color: white;
+#header, #footer {
+    background-color: var(--main-color);
+    color: var(--text-color);
     
     width: 100%;
     height: 100px;
@@ -19,21 +19,35 @@ header, footer {
     align-items: center;
     justify-content: center;
 
-    box-shadow: 0px 0px 13px 7px #16191d;
+    box-shadow: 0px 0px 13px 7px var(--main-shadow);
 }
 
-h1 {
+#h1 {
     text-align: center;
 }
 
-footer {
+.header_center, .switcher {
+    position: absolute;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switcher {
+    right: 0;
+    margin: 0 20px;
+}
+
+#footer {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
 }
 
-footer .title {
+#footer .title {
+    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
@@ -44,4 +58,11 @@ footer .title {
     height: 40px;
     width: 40px;
     border-radius: 30%;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+
+    gap: 20px;
 }

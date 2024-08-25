@@ -6,7 +6,7 @@
     height: 100%;
 }
 
-main {
+#main {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -15,7 +15,7 @@ main {
     height: 100%;
 }
 
-main > * {
+#main > * {
     min-width: 300px;
     width: 500px;
 
@@ -23,10 +23,11 @@ main > * {
     padding: 20px 10px;
     border-radius: 20px;
 
-    background-color: #16191d;
+    background-color: var(--main-shadow);;
 }
 
 .rules ul {
+    color: var(--text-color);
     list-style-position: inside;
     padding: 0 0 0 5px;
 }
@@ -41,13 +42,6 @@ main > * {
     flex-direction: column;
 }
 
-.links {
-    display: flex;
-    flex-direction: row;
-
-    gap: 10px;
-}
-
 .nav {
     display: flex;
     flex-direction: column;
@@ -55,11 +49,19 @@ main > * {
 }
 
 .nav .links {
+    display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+.links div {
+    text-align: center;
+}
+
 .link {
+    color: white;
+    background-color: #07080a;
+    border-radius: 20px;
     text-align: center;
 }
 
