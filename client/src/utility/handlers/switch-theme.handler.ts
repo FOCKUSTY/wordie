@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 
-class SwitchTemeHandler {
+class SwitchThemeHandler {
     private _vars: any = {
         '--foreground-rgb': { dark: '255, 255, 255', light: '0, 0, 0;' },
         '--background-start-rgb': { dark: '0, 0, 0', light: '214, 219, 220' },
@@ -19,22 +19,22 @@ class SwitchTemeHandler {
     
         if(!html) return;
 
-        const switchTeme = (teme: 'dark'|'light') => {
-            html.style.cssText = `color-scheme: ${teme}`;
+        const switchTheme = (theme: 'dark'|'light') => {
+            html.style.cssText = `color-scheme: ${theme}`;
     
             for(const key in this._vars) {
                 const value = this._vars[key];
     
-                document.documentElement.style.setProperty(key, value[teme]);
+                document.documentElement.style.setProperty(key, value[theme]);
             };
     
-            html.style.colorScheme = teme;
+            html.style.colorScheme = theme;
         };
     
         if(!event.target.checked || html.style.colorScheme === 'dark')
-            switchTeme('light');
+            switchTheme('light');
         else
-            switchTeme('dark');
+            switchTheme('dark');
     };
 
     public OnLoad = (id: string) => {
@@ -51,4 +51,4 @@ class SwitchTemeHandler {
     };
 };
 
-export default SwitchTemeHandler;
+export default SwitchThemeHandler;
