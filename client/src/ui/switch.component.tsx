@@ -1,19 +1,36 @@
 'use client';
 
-import { NextPage } from "next";
-import SwitcherHandler from '../utility/handlers/switch-teme.handler';
+import React from "react";
+
+import Handler from '../utility/handlers/switch-teme.handler';
 
 type Props = {
-    styleName: string;
+    className: string;
+    id: string;
 };
 
-const Switcher: NextPage<Props> = ({ styleName }) => {
-    return (
-        <div className={styleName}>
-            <input className="input-switch" type="checkbox" id="switch"  onChange={SwitcherHandler}/>
-            <label className="label-switch" htmlFor="switch">Toggle</label>
-        </div>
-    );
+const handler = new Handler();
+
+class Component extends React.Component<Props> {
+    constructor(props: Props) {
+        super(props);
+    };
+
+    componentDidMount = () => handler.OnLoad(this.props.id);
+
+    public render(): React.ReactNode {
+        return (
+            <div className={`${this.props.className} noselect`}>
+                <input
+                    className="input-switch"
+                    type="checkbox"
+                    id={this.props.id}
+                    onChange={handler.Handler}
+                />
+                <label className="label-switch" htmlFor={this.props.id}>Toggle</label>
+            </div>
+        );
+    }
 };
 
-export default Switcher;
+export default Component;

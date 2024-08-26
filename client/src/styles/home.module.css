@@ -59,13 +59,13 @@
 }
 
 .link {
-    color: white;
     background-color: #07080a;
     border-radius: 20px;
     text-align: center;
 }
 
 .link span {
+    color: white;
     background-color: #07080a;
     border-radius: 20px;
     

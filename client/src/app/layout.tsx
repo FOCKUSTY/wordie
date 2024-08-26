@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import styles from "../styles/layout.module.css";
 import Switcher from "@/ui/switch.component";
-import { ChangeEvent } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +29,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                             </div>
                         </div>
 
-                        <Switcher styleName={styles.switcher}></Switcher>
+                        <Switcher id="swtich" className={styles.switcher}></Switcher>
                     </header>
 
                     <>{children}</>
