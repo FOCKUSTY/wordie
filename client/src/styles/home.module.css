@@ -42,10 +42,30 @@
     flex-direction: column;
 }
 
+.user {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.user img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
 .nav {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    
+    align-items: center;
     justify-content: center;
+    
+    gap: 20px;
 }
 
 .nav .links {

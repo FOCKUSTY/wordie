@@ -2,10 +2,11 @@ import { config } from 'dotenv';
 import express, { Express } from 'express';
 import cors from 'cors';
 import routes from '../routes';
-import Passport from '../../strategies/discord';
+import Passport from '../strategies/discord';
 import Session from './session';
 
 config();
+require('../strategies/discord');
 
 class App {
     private _app: Express;
@@ -28,11 +29,11 @@ class App {
             this._app.use(express.json());
             this._app.use(express.urlencoded());
         
-            this._app.use(this._passport.initialize());
-            this._app.use(this._passport.session());
-            
             this._session.create();
 
+            this._app.use(this._passport.session());
+            this._app.use(this._passport.initialize());
+            
             this._app.use((_req, _res, next) => setTimeout(() => next(), 700));
             this._app.use('/api', routes);   
         } catch (err) {

@@ -1,11 +1,13 @@
-import { config } from 'dotenv'
 import passport from "passport";
+import axios from "axios";
+
 import { Profile, Strategy } from "passport-discord";
 import { VerifyCallback } from 'passport-oauth2';
 
-import database from 'database/schema/user.schema';
+import { AuthUser } from "types/user.types";
 
-config();
+import database from '../database/schema/user.schema';
+import discordDatabase from '../database/schema/discord-user.schema';
 
 class Passport {
     private _passport = passport;
@@ -34,15 +36,15 @@ class Passport {
         });
 
         this._passport.use(new Strategy({
-            clientID: process.env.DISCORD_CLIENT_ID!,
-            clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+            clientID: process.env.DISCORD_ID!,
+            clientSecret: process.env.DISCORD_SECRET!,
             callbackURL: process.env.DISCORD_CALLBACK_URL,
             scope: ['identify', 'email', 'guilds']
             }, async (
-                accessToken: string,
-                refreshToken: string,
-                profile: Profile,
-                done: VerifyCallback
+                    accessToken: string,
+                    refreshToken: string,
+                    profile: Profile,
+                    done: VerifyCallback
                 ) => {
                     const { id: discordId } = profile;
 
@@ -53,9 +55,29 @@ class Passport {
                             { new: true },
                         );
         
+                        const authUser = (await axios.get<AuthUser>(`https://discord.com/api/v9/users/@me`, {
+                            headers: { Authorization: `Bearer ${accessToken}` }
+                        })).data;
+
+                        const user = {
+                            username: authUser.username,
+                            global_name: authUser.global_name,
+                            avatar_url: authUser.avatar
+                                ? `https://cdn.discordapp.com/avatars/${authUser.id}/${authUser.avatar}.png`
+                                : undefined
+                        };
+
+                        await discordDatabase.findOneAndUpdate(
+                            { id: discordId }, user,
+                            { new: true }
+                        );
+
                         if(existingUser) return done(null, existingUser);
             
                         const newUser = new database({ discordId, accessToken, refreshToken });
+
+                        (await discordDatabase.create(user)).save();
+
                         const savedUser = await newUser.save();
 
                         return done(null, savedUser);

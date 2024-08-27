@@ -56,7 +56,7 @@
     color: var(--text-color);
 }
 
-html, body {
+html, body, #__next {
     font-family: var(--font-mono);
     overflow-x: hidden;
     

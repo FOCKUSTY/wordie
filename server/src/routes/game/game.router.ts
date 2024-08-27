@@ -1,4 +1,4 @@
-import GameController from "../../controllers/game/game.controller";
+import GameController from "../../controllers/game.controller";
 import { Router } from "express";
 
 const controller = new GameController();

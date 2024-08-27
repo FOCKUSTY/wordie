@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
-import GameService from "../../services/game/game.service";
-import Game from "../../types/game.class";
-import Database from "../../database/logic/word.logic";
+import GameService from "../services/game.service";
+import Game from "../types/game.class";
+import Database from "../database/logic/word.logic";
 
 const service = new GameService();
 

@@ -1,10 +1,28 @@
-'use client';
+import { GetServerSidePropsContext } from "next";
+import { ReactElement } from "react";
 
 import { useRouter } from "next/navigation";
-import styles from "../styles/home.module.css";
 
-const Page = () => {
+import { NextPageWithLayout } from "@/utility/types/component.types";
+import { User } from '@/utility/types/user.types';
+
+import UserContext from "@/context/user.context";
+import UserApi from "@/api/user.api";
+
+import UserComponent from "@/ui/user.components";
+import AuthComponent from "@/ui/auth.components";
+import Layout from "@/ui/layout.ui";
+
+import styles from "@/styles/home.module.css";
+
+type Props = {
+    user?: User
+};
+
+const Home: NextPageWithLayout<Props> = ({ user }) => {
     const router = useRouter();
+
+    new UserContext().setContext(user);
 
     return (
         <div className="page">
@@ -25,18 +43,23 @@ const Page = () => {
                 </div>
 
                 <div className={`${styles.nav} noselect`}>
-                    <div className={styles.links}>
-                        <div>
-                            <button className={styles.link} onClick={() => router.push('/play/bot')}><span>Играть с ботом</span></button>
-                        </div>
-                        <div>
-                            <button className={styles.link} onClick={() => router.push('/play/player')}><span>Играть с человеком</span></button>
-                        </div>
-                    </div>
+                    <UserComponent styles={styles} user={user}></UserComponent>
+                    <AuthComponent styles={styles} user={user} router={router}></AuthComponent>
                 </div>
+
             </main>
         </div>
     );
 };
 
-export default Page;
+Home.getLayout = (page: ReactElement) => {
+    return <Layout>{page}</Layout>;
+};
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+    const user = await new UserApi().getUser(ctx);
+    
+    return { props: { user } };
+};
+
+export default Home;
