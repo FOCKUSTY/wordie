@@ -6,11 +6,11 @@ class SwitchThemeHandler {
         '--background-start-rgb': { dark: '0, 0, 0', light: '214, 219, 220' },
         '--background-end-rgb': { dark: '0, 0, 0', light: '255, 255, 255' },
      
-        '--text-color': { dark: 'white', light: 'black' },
-        '--text-anti-color': { dark: 'black', light: 'white' },
+        '--text-color': { dark: '#efefef', light: '#414141' },
+        '--text-anti-color': { dark: '#414141', light: '#efefef' },
         
-        '--main-color': { dark: '#16191d', light: '#929292' },
-        '--main-shadow': { dark: '#16191d', light: '#929292' }
+        '--main-color': { dark: '#16191d', light: '#ffffff' },
+        '--main-shadow': { dark: '#16191d', light: '#efefef' }
     };
 
     public Handler = (event: ChangeEvent<HTMLInputElement>) => {

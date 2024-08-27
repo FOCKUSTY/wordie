@@ -6,11 +6,11 @@
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
 
-    --text-color: black;
-    --text-anti-color: white;
-
-    --main-color: #929292;
-    --main-shadow: #929292;
+    --text-color: #414141;
+    --text-anti-color: #efefef;
+    
+    --main-color: #ffffff;
+    --main-shadow: #efefef;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +19,8 @@
         --background-start-rgb: 0, 0, 0;
         --background-end-rgb: 0, 0, 0;
 
-        --text-color: white;
-        --text-anti-color: black;
+        --text-color: #efefef;
+        --text-anti-color: #414141;
 
         --main-color: #16191d;
         --main-shadow: #16191d;

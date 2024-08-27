@@ -79,17 +79,13 @@
 }
 
 .link {
-    background-color: #07080a;
+    background-color: #383b43;
     border-radius: 20px;
     text-align: center;
+    padding: 5px 10px;
 }
 
 .link span {
-    color: white;
-    background-color: #07080a;
-    border-radius: 20px;
-    
     font-size: 18px;
-
-    padding: 5px 10px;
+    color: white;
 }
