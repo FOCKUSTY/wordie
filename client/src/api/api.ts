@@ -1,12 +1,19 @@
+import { config } from 'dotenv';
 import { GetServerSidePropsContext } from 'next';
-import config from '../../config.json';
 
-export const API_URL: string = `${config.server_url}/api`;
+config();
 
-export const validateCookies = (ctx: GetServerSidePropsContext) => {
-    const sessionID = ctx.req.cookies['connect.sid'];
+class Api {
+    public readonly env = process.env;
+    public readonly url = `${process.env.SERVER_URL}/api`;
 
-    return sessionID
-        ? ({ Cookie: `connect.sid=${sessionID}` })
-        : false;
+    public readonly validateCookies = (ctx: GetServerSidePropsContext) => {
+        const sessionID = ctx.req.cookies['connect.sid'];
+    
+        return sessionID
+            ? ({ Cookie: `connect.sid=${sessionID}` })
+            : false;
+    };
 };
+
+export default Api;

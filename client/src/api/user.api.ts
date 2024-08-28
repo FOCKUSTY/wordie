@@ -1,15 +1,17 @@
 import { GetServerSidePropsContext } from "next"
-import { API_URL, validateCookies } from "./api";
+import Api from "./api";
+
+const api = new Api();
 
 class UserApi {
     public getUser = async (ctx: GetServerSidePropsContext) => {
-        const headers = validateCookies(ctx);
+        const headers = api.validateCookies(ctx);
 
         if(!headers)
             return null
         
         try {
-            const res = await fetch(`${API_URL}/users/user`, { headers: headers });
+            const res = await fetch(`${api.url}/users/user`, { headers: headers });
             const user = await res.json();
 
             return user;
