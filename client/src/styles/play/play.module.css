@@ -1,0 +1,105 @@
+#main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    width: 100%;
+    height: 100%;
+}
+
+#main > * {
+    position: relative;
+
+    min-width: 300px;
+    width: 1000px;
+
+    margin: 20px;
+    padding: 20px 10px;
+    border-radius: 20px;
+
+    background-color: var(--main-color);;
+}
+
+.component ul {
+    color: var(--text-color);
+    list-style-position: inside;
+    padding: 0 0 0 5px;
+}
+
+.component ul li::marker {
+    color: white;
+    font-size: 12px;
+}
+
+.component .content {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    margin: 10px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.components {
+    position: absolute;
+    top: 0;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    width: 100%;
+    
+    gap: 10px;
+    margin: 10px;
+}
+
+.start_game {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.user img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.buttons button, .components button, .component .content button {
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+#section_component {
+    min-width: 0px;
+    display: none;
+    transition: 1s;
+}
+
+.child {
+    display: none;
+    opacity: 0;
+    transition: 1s;
+}

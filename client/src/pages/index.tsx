@@ -46,7 +46,6 @@ const Home: NextPageWithLayout<Props> = ({ user }) => {
                     <UserComponent styles={styles} user={user}></UserComponent>
                     <AuthComponent styles={styles} user={user} router={router}></AuthComponent>
                 </div>
-
             </main>
         </div>
     );
