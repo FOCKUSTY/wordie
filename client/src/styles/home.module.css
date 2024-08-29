@@ -33,7 +33,7 @@
 }
 
 .rules ul li::marker {
-    color: white;
+    color: var(--text-color);
     font-size: 12px;
 }
 
