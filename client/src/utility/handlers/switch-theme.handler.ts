@@ -10,7 +10,8 @@ class SwitchThemeHandler {
         '--text-anti-color': { dark: '#414141', light: '#efefef' },
         
         '--main-color': { dark: '#16191d', light: '#ffffff' },
-        '--main-shadow': { dark: '#16191d', light: '#efefef' }
+        '--main-shadow': { dark: '#16191d', light: '#efefef' },
+        '--content-color': { dark: '#282828', light: '#d5d5d5' }
     };
 
     public Handler = (event: ChangeEvent<HTMLInputElement>) => {

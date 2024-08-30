@@ -9,9 +9,9 @@ const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                 <div className={styles.header_center}>
                     <div className={`${styles.title} noselect`}>
                         <div className={styles.links}>
-                            <a href="https://github.com/FOCKUSTY/wordie">Github</a>
-                            <a href="https://discord.gg/5MJrRjzPec">Discord</a>
-                            <a href="https://t.me/BottomlessHat">Telegram</a>
+                            <a target="_blank" href="https://github.com/FOCKUSTY/wordie">Github</a>
+                            <a target="_blank" href="https://discord.gg/5MJrRjzPec">Discord</a>
+                            <a target="_blank" href="https://t.me/BottomlessHat">Telegram</a>
                         </div>
                         <h1 id={styles.h1}>Wordie</h1>
                     </div>

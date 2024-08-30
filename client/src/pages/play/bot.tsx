@@ -1,16 +1,17 @@
 import { GetServerSidePropsContext } from "next";
 import { ReactElement, useState } from "react";
 
-import { useRouter } from "next/navigation";
-
 import UserApi from "@/api/user.api";
 
-import OnclickHandler from "@/utility/handlers/play/onclick-component.handler";
+import OnclickComponentHandler from "@/utility/handlers/play/onclick-component.handler";
 import type { NextPageWithLayout } from "@/utility/types/component.types";
 import type { User } from '@/utility/types/user.types';
+import type { Reply } from "@/utility/types/play/reply.type";
+
+import State from "@/api/functions.api";
 
 import SectionComponent from '@/ui/play/sections.components';
-import UserComponent from "@/ui/user.components";
+import GameComponent from '@/ui/play/game.components';
 import Layout from "@/ui/layout.ui";
 
 import styles from '../../styles/play/play.module.css';
@@ -21,8 +22,10 @@ type Props = {
 
 const Page: NextPageWithLayout<Props> = ({ user }) => {
     let [ component, setComponent ] = useState<'rules'|'history'|'nothing'>('nothing');
+    let [ game, setGame ] = useState<boolean>(false);
+    const [ replies, setReplies ] = new State<Reply[]>([]).getState();
 
-    const onclickHandler = new OnclickHandler(setComponent, styles);
+    const onclickComponentHandler = new OnclickComponentHandler(setComponent, styles);
 
     return (
         <div className="page">
@@ -36,24 +39,25 @@ const Page: NextPageWithLayout<Props> = ({ user }) => {
 
                 <section className={styles.content}>
                     <div className={styles.components}>
-                        <button onClick={(e) => onclickHandler.Handler(e, 'rules') }>
+                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'rules') }>
                             <span>Вывести правила</span>
                         </button>
                         
-                        <button onClick={(e) => onclickHandler.Handler(e, 'history') }>
+                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'history') }>
                             <span>Вывести историю</span>
-                        </button>
+                        </button>                    
                     </div>
 
-                    <div className={styles.start_game}>
-                        <UserComponent styles={styles} user={user}></UserComponent>
-                        
-                        <div className={styles.buttons}>
-                            <button>
-                                <span>Начать игру</span>
-                            </button>
-                        </div>
-                    </div>
+
+                    <GameComponent
+                        game={game}
+                        set={setGame}
+                        styles={styles}
+                        user={user}
+                        replies={replies}
+                        setReplies={setReplies}
+                    >
+                    </GameComponent>
                 </section>
             </main>
         </div>

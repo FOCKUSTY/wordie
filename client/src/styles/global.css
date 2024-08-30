@@ -11,6 +11,7 @@
     
     --main-color: #ffffff;
     --main-shadow: #efefef;
+    --content-color: #d5d5d5;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,7 +25,23 @@
 
         --main-color: #16191d;
         --main-shadow: #16191d;
+        --content-color: #282828;
     }
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgb(0, 0, 0);
+    border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(0, 0, 0);
+    border-radius: 20px;
+    border: 1px solid rgb(61, 61, 61);
 }
 
 .page {
@@ -80,6 +97,11 @@ a {
 button {
     cursor: pointer;
     border: 0;
+}
+
+legend {
+    margin: 0 20px;
+    padding: 0 10px;
 }
 
 .input-switch {
