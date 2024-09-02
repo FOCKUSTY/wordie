@@ -1,5 +1,5 @@
 export interface User {
-    id: string;
+    discordId: string;
     username: string;
 
     avatar_url?: string;

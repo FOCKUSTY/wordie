@@ -55,6 +55,11 @@ Home.getLayout = (page: ReactElement) => {
     return <Layout>{page}</Layout>;
 };
 
+export class StaticProps {
+    public readonly server_url = process.env.SERVER_URL;
+    public readonly client_url = process.env.CLIENT_URL;
+};
+
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const user = await new UserApi().getUser(ctx);
     

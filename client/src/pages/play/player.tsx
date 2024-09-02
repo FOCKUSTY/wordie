@@ -20,6 +20,7 @@ const Page: NextPageWithLayout<Props> = ({ user }) => {
     return (
         <div className="page">
             <main id={styles.main}>
+                <span>В разработке</span>
             </main>
         </div>
     );

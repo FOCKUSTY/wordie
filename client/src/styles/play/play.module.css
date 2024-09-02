@@ -24,6 +24,7 @@
     color: var(--text-color);
     list-style-position: inside;
     padding: 0 0 0 5px;
+    max-height: 0px;
 }
 
 .component ul li::marker {
@@ -119,7 +120,7 @@
     padding: 10px;
     margin: 10px;
 
-    overflow-y: scroll;
+    overflow-y: auto;
 
     background: var(--content-color);
 }
@@ -188,6 +189,7 @@
 #section_component,
 #game_output,
 #bot_output,
+#form_send,
 .child
 {
     transition: 1s;
@@ -201,4 +203,5 @@
 .child {
     display: none;
     opacity: 0;
+    overflow-y: auto;
 }

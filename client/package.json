@@ -3,9 +3,10 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "set SERVER_URL=http://localhost:3001&& set CLIENT_URL=http://localhost:3000&&next dev",
+        "set": "set NEXT_PUBLIC_SERVER_URL=http://localhost:3001&& set NEXT_PUBLIC_CLIENT_URL=http://localhost:3000",
+        "dev": "pnpm run set && next dev",
         "build": "next build",
-        "start": "next start",
+        "start": "pnpm run set && next start",
         "lint": "next lint"
     },
     "dependencies": {

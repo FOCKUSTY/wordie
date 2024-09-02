@@ -4,23 +4,24 @@ import axios from "axios";
 const api = new Api()
 
 export default class GameApi {
-    public postWord = async (word: string) => {
+    public readonly postWord = async (word: string, userId: string) => {
         try {
-            const { data } = await axios.post(`${api.url}/game/word`, {word: word});
+            const { data } = await axios.post<{msg: { type: 'game'|'bot', name: string, text: string }[]}>(`${api.url}/game/word`, {word: word, userId});
 
-            return data;   
+            return data.msg;
         } catch (err) {
             return console.error(err);
         };
     };
     
-    public getWord = async () => {
+    public readonly getWord = async (userId: string) => {
         try {
-            const { data } = await axios.get<string>(`${api.url}/game/word`);
+            const { data } = await axios.get<{msg: { type: 'game'|'bot', name: string, text: string }[]}>(`${api.url}/game/word`, {data: { userId }});
 
-            return data;   
+            return data.msg;
         } catch (err) {
-            return console.error(err);
+            console.error(err);
+            return false;
         };
     };
 };

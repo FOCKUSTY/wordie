@@ -1,20 +1,21 @@
 import { Response, Request } from "express";
 import GameService from "../services/game.service";
-import Game from "../types/game.class";
-import Database from "../database/logic/word.logic";
-
-const service = new GameService();
 
 export default class GameController {
     constructor() {};
 
     public postWord = (req: Request, res: Response) => {
         try {
+            const userId: string = req.body.userId;
             const word = req.body.word;
 
-            const reply = service.postWord(word);
-
-            res.send({msg: 'ok'});
+            const service = new GameService(userId);
+            
+            setTimeout(() => {
+                const reply = service.postWord(word);
+                
+                res.send({msg: reply});
+            }, 1000);
         } catch (err) {
             console.error(err);
             
@@ -24,7 +25,15 @@ export default class GameController {
 
     public getWord = (req: Request, res: Response) => {
         try {
-            res.status(200).send({msg: 'ok'});
+            const userId: string = req.body.userId;
+
+            const service = new GameService(userId);
+
+            setTimeout(() => {
+                const word = service.getWord();
+    
+                res.send({msg: word});
+            }, 1000);
         } catch (err) {
             console.error(err);
             

@@ -1,11 +1,26 @@
 import { MouseEvent as ReactMouseEvent } from "react";
 
+import type { Reply } from "@/utility/types/play/reply.type";
+
+import GameApi from "@/api/game.api";
+import { User } from "@/utility/types/user.types";
+
+import CreateHandler from "../global/create.handler";
+
 class Handler {
     private readonly styles: any;
+    private readonly user: User;
+
     private readonly set: (game: boolean) => void;
 
-    constructor(styles: any, set: (game: boolean) => void) {
+    private readonly createHandler: CreateHandler;
+
+    constructor(styles: any, replies: Reply[], user: User, set: (game: boolean) => void, setReplies: (replies: Reply[]) => void) {
         this.styles = styles;
+        this.user = user;
+
+        this.createHandler = new CreateHandler(replies, setReplies);
+
         this.set = set;
     };
 
@@ -36,6 +51,15 @@ class Handler {
         const document = e.currentTarget.ownerDocument;
 
         this.Animation(document);
+
+        setTimeout(async () => {
+            const replies = await new GameApi().getWord(this.user.id);
+
+            if(!replies)
+                return;
+
+            this.createHandler.Handler(replies);
+        }, 3000);
 
         setTimeout(() => {
             this.set(true);

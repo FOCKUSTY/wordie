@@ -3,6 +3,7 @@ import React from "react";
 import UserComponent from "@/ui/user.components";
 
 import OnclickHandler from "@/utility/handlers/play/onclick-start.handler";
+import SendHandler from "@/utility/handlers/play/send.handler";
 
 import type { User } from "@/utility/types/user.types";
 import type { Reply } from "@/utility/types/play/reply.type";
@@ -13,17 +14,20 @@ type Props = {
     game: boolean;
     user: User;
 
-    replies: Reply[]
+    replies: Reply[];
     setReplies: (replies: Reply[]) => void;
+    setter: (replies: Reply[]) => void;
 };
 
 class Component extends React.Component<Props> {
     private readonly onclickHandler: OnclickHandler;
+    private readonly sendHandler: SendHandler;
 
     constructor(props: Props) {
         super(props);
 
-        this.onclickHandler = new OnclickHandler(props.styles, this.props.set);
+        this.sendHandler = new SendHandler(props.setReplies, props.user);
+        this.onclickHandler = new OnclickHandler(props.styles, props.replies, props.user, props.set, props.setter);
     };
 
     private readonly GameStart = () => {
@@ -45,28 +49,31 @@ class Component extends React.Component<Props> {
             <div className={this.props.styles.game}>
                 <div id={this.props.styles.output}>
                     <div className={this.props.styles.output_section}>
+                        <span>Вывод игры:</span>
                         <div id={this.props.styles.game_output} className={this.props.styles.text}>
                             {
-                                this.props.replies.map(reply =>
+                                this.props.replies.map(reply => 
                                     reply.type === 'game'
-                                        ? <div><span>{reply.name}:</span><span>{reply.text}</span></div>
-                                        : <></>)
+                                    ? <div><span>{reply.name}:</span><span>{reply.text}</span></div>
+                                    : <></>
+                                )
                             }
                         </div>
                     </div>
                     <div className={this.props.styles.output_section}>
+                        <span>Вывод бота:</span>
                         <div id={this.props.styles.bot_output} className={this.props.styles.text}>
                             {
-                                this.props.replies.map(reply =>
-                                    reply.type === 'bot'
-                                        ? <div><span>{reply.name}:</span><span>{reply.text}</span></div>
-                                        : <></>)
+                                this.props.replies.map(reply => reply.type === 'bot'
+                                    ? <div><span>{reply.name}:</span><span>{reply.text}</span></div>
+                                    : <></>
+                                )
                             }
                         </div>
                     </div>
                 </div>
 
-                <form action="" id={this.props.styles.form_send}>
+                <form name="form_send" id={this.props.styles.form_send}>
                     <fieldset className={this.props.styles.input}>
                         <legend>Напишите своё сообщение</legend>
 
@@ -75,9 +82,16 @@ class Component extends React.Component<Props> {
                             maxLength={30}
                             placeholder="Ваше сообщение"
                             id={this.props.styles.write}
+                            name="word"
                         ></textarea>
 
-                        <input id={this.props.styles.send_writed} type="submit" value="Отправить"/>
+                        <input
+                            id={this.props.styles.send_writed}
+                            name="submit"
+                            type="submit"
+                            value="Отправить"
+                            onClick={this.sendHandler.Handler}
+                        />
                     </fieldset>
                 </form>
             </div>

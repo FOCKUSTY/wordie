@@ -15,6 +15,7 @@ import GameComponent from '@/ui/play/game.components';
 import Layout from "@/ui/layout.ui";
 
 import styles from '../../styles/play/play.module.css';
+import GameApi from "@/api/game.api";
 
 type Props = {
     user: User
@@ -23,31 +24,29 @@ type Props = {
 const Page: NextPageWithLayout<Props> = ({ user }) => {
     let [ component, setComponent ] = useState<'rules'|'history'|'nothing'>('nothing');
     let [ game, setGame ] = useState<boolean>(false);
-    const [ replies, setReplies ] = new State<Reply[]>([]).getState();
+    const [ replies, setReplies, setter ] = new State<Reply[]>([]).getState();
 
     const onclickComponentHandler = new OnclickComponentHandler(setComponent, styles);
 
     return (
         <div className="page">
             <main id={styles.main}>
-
                 {
                     component !== 'nothing'
-                        ? <SectionComponent set={setComponent} styles={styles} section={component}></SectionComponent>
+                        ? <SectionComponent set={setComponent} styles={styles} section={component}/>
                         : <></>
                 }
 
                 <section className={styles.content}>
                     <div className={styles.components}>
-                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'rules') }>
+                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'rules')}>
                             <span>Вывести правила</span>
                         </button>
                         
-                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'history') }>
+                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'history')}>
                             <span>Вывести историю</span>
                         </button>                    
                     </div>
-
 
                     <GameComponent
                         game={game}
@@ -56,8 +55,8 @@ const Page: NextPageWithLayout<Props> = ({ user }) => {
                         user={user}
                         replies={replies}
                         setReplies={setReplies}
-                    >
-                    </GameComponent>
+                        setter={setter}
+                    />
                 </section>
             </main>
         </div>

@@ -8,7 +8,7 @@ class UserApi {
         const headers = api.validateCookies(ctx);
 
         if(!headers)
-            return null
+            return null;
         
         try {
             const res = await fetch(`${api.url}/users/user`, { headers: headers });
@@ -19,7 +19,7 @@ class UserApi {
         catch (err) {
             console.error(err);
             
-            return null
+            return null;
         };
     };
 };

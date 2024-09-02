@@ -9,12 +9,12 @@ config();
 require('../strategies/discord');
 
 class App {
-    private _app: Express;
-    private _passport = new Passport();
-    private _session: Session;
+    private readonly _app: Express;
+    private readonly _passport = new Passport();
+    private readonly _session: Session;
 
-    protected _port: string|number = process.env.PORT || 3001;
-    protected _client_url: string = `${process.env.CLIENT_URL}`;
+    protected readonly _port: string|number = process.env.PORT || 3001;
+    protected readonly _client_url: string = `${process.env.CLIENT_URL}`;
 
     constructor() {
         this._app = express();

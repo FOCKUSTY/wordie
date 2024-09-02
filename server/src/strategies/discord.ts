@@ -60,6 +60,7 @@ class Passport {
                         })).data;
 
                         const user = {
+                            discordId: authUser.id,
                             username: authUser.username,
                             global_name: authUser.global_name,
                             avatar_url: authUser.avatar
@@ -68,7 +69,7 @@ class Passport {
                         };
 
                         await discordDatabase.findOneAndUpdate(
-                            { id: discordId }, user,
+                            { discordId }, user,
                             { new: true }
                         );
 

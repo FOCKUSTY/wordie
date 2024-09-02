@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import { User } from "../../types/user.types";
 
 const schema = new Schema<User>({
-    id: {
+    discordId: {
         type: mongoose.SchemaTypes.String,
         unique: true,
         ref: "auth-users"
