@@ -15,14 +15,13 @@ import GameComponent from '@/ui/play/game.components';
 import Layout from "@/ui/layout.ui";
 
 import styles from '../../styles/play/play.module.css';
-import GameApi from "@/api/game.api";
 
 type Props = {
     user: User
 };
 
 const Page: NextPageWithLayout<Props> = ({ user }) => {
-    let [ component, setComponent ] = useState<'rules'|'history'|'nothing'>('nothing');
+    let [ component, setComponent ] = useState<'rules'|'nothing'>('nothing');
     let [ game, setGame ] = useState<boolean>(false);
     const [ replies, setReplies, setter ] = new State<Reply[]>([]).getState();
 
@@ -42,10 +41,6 @@ const Page: NextPageWithLayout<Props> = ({ user }) => {
                         <button onClick={(e) => onclickComponentHandler.Handler(e, 'rules')}>
                             <span>Вывести правила</span>
                         </button>
-                        
-                        <button onClick={(e) => onclickComponentHandler.Handler(e, 'history')}>
-                            <span>Вывести историю</span>
-                        </button>                    
                     </div>
 
                     <GameComponent

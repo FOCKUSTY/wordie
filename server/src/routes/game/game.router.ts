@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/word', controller.getWord);
 router.post('/word', controller.postWord);
+router.delete('/word', controller.clear);
 
 export default router;

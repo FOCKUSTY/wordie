@@ -1,5 +1,6 @@
 import Database from "../database/logic/word.logic";
 import { Random } from 'random-js';
+import { Reply } from "./game.types";
 
 const data = new Database();
 const random = new Random();
@@ -12,8 +13,6 @@ class Game {
     private _data?: Database;
     private _lastLetter: string = ' ';
     private _addLetterToDB = false;
-
-    private _output: { type: 'game'|'bot', name: string, text: string }[] = [];
 
     constructor(database?: Database) {
         this._data = database;
@@ -38,8 +37,6 @@ class Game {
     };
 
     private getLastLetter = (word: string): string => {
-        console.log(1, word);
-        
         const lastIndex = word.length-1;
         const lastLetter = word[lastIndex];
 
@@ -57,6 +54,10 @@ class Game {
         return lastLetter;
     };
 
+    public setAdmin(admin: boolean) {
+        this._addLetterToDB = admin;
+    };
+
     public setWord = (word: string) => {
         if(word.length <= 1)
             return;
@@ -68,7 +69,7 @@ class Game {
             data.setWords([word]);
     };
 
-    public getWord = (): { type: 'game'|'bot', name: string, text: string }[] => {
+    public getWord = (): Reply[] => {
         const number = random.integer(0, this._notUsedWords.length-1);
         
         const randomWord = this._notUsedWords[number];
@@ -87,7 +88,9 @@ class Game {
         ];
     };
 
-    public getNotUsedWord = (word: string): { type: 'game'|'bot', name: string, text: string }[] => {
+    public getNotUsedWord = (word: string): Reply[] => {
+        let output: Reply[] = [];
+
         const lastIndex = word.length-1;
         const lastLetter = word[lastIndex];
 
@@ -99,12 +102,19 @@ class Game {
             
             if(!this._exceptions.filter(ex => ex === lastLetter).includes(lastLetter))
             {
-                this._output.push({name: 'Bot', type: 'bot', text: `Ой, не могу найти слово на "${lastLetter}" перехожу на другую букву (${nextLetter ? nextLetter : 'Кончились буквы'})`})
+                output.push({
+                    name: 'Bot', type: 'bot',
+                    text: `Ой, не могу найти слово на "${lastLetter}" перехожу на другую букву (${nextLetter ? nextLetter : 'Кончились буквы'})`
+                });
                 
                 if(word.length <= 1)
                 {
-                    this._output = [{name: 'Bot', type: 'bot', text: 'Конец игры, я не смог найти слова... Ты победил'}];
-                    return this._output;
+                    output = [{
+                        name: 'Bot', type: 'bot',
+                        text: 'Конец игры, я не смог найти слова... Ты победил'
+                    }];
+
+                    return output;
                 };
             };
 
@@ -122,17 +132,13 @@ class Game {
             const lastLetter = this.getLastLetter(randomWord);
             this._lastLetter = lastLetter;
 
-            this._output.push({
+            output.push({
                 name: 'Bot', type: 'bot',
                 text: `${randomWord}, тебе на "${lastLetter}"`
             });
 
-            return this._output;
+            return output;
         };
-    };
-
-    public readonly clearOutput = () => {
-        this._output = [];
     };
 
     get lastLetter(): string {

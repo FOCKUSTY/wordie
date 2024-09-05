@@ -5,16 +5,18 @@ import GameApi from "@/api/game.api";
 import type { Reply } from "@/utility/types/play/reply.type";
 import { User } from "@/utility/types/user.types";
 
+import CreateHandler from "../global/create.handler";
+
 const gameApi = new GameApi();
 
 class Handler {
     private readonly alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
     private readonly user: User;
-    private readonly setReplies: (replies: Reply[]) => void;
+    private readonly createHandler: CreateHandler;
 
-    constructor(setReplies: (replies: Reply[]) => void, user: User) {
+    constructor(setReplies: (replies: Reply[]) => void, user: User, replies: Reply[]) {
         this.user = user;
-        this.setReplies = setReplies
+        this.createHandler = new CreateHandler(replies, setReplies);
     };
     
     private readonly Clear = (el: any, text: string) => {
@@ -24,10 +26,7 @@ class Handler {
         return;
     };
 
-    public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {        
-        e.preventDefault();
-
-        const document: any = e.currentTarget.ownerDocument;
+    public readonly Send = async(document: any) => {
         const form = document.forms.form_send;
         
         if(!form)
@@ -47,6 +46,11 @@ class Handler {
         if(word.length <= 1)
             return this.Clear(el, 'Введите слово.');
 
+        this.createHandler.Handler([{name: this.user.globalName ? this.user.globalName : this.user.username, text: word, type: 'bot'}])
+
+        el.value = '';
+        el.placeholder = 'Ваше слово.';
+
         const data = await gameApi.postWord(word, this.user.id);
 
         if(!data)
@@ -56,9 +60,20 @@ class Handler {
             if(value.text.includes('Конец игры, я не смог найти слова... Ты победил'))
                 btn.disabled = true;  
 
-        el.vlaue = '';
+        this.createHandler.Handler(data);
+    };
 
-        this.setReplies(data);
+    public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {        
+        e.preventDefault();
+
+        const document: any = e.currentTarget.ownerDocument;
+
+        if(!e.currentTarget.disabled)
+            setTimeout(() => e.currentTarget.disabled = false, 1000);
+
+        e.currentTarget.disabled = true;
+
+        this.Send(document);
     };
 };
 

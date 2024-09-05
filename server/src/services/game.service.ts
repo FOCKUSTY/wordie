@@ -1,18 +1,19 @@
+import { Reply } from "types/game.types";
 import Database from "../database/logic/word.logic";
 import Game from "../types/game.class";
 
 const database = new Database();
-const gameData = new Game(database);
-
 const games: { [key: string]: Game } = {};
 
 export default class GameService {
     private readonly _userId: string;
     private _game: Game;
+    private admin: boolean = false;
 
-    constructor(userId: string) {
+    constructor(userId: string, admin: boolean = false) {
         this._userId = userId;
         this._game = games[userId];
+        this.admin = admin;
 
         this.init();
     };
@@ -29,11 +30,11 @@ export default class GameService {
         };
     };
 
-    public readonly postWord = (word: string) => {
+    public readonly postWord = (word: string): Reply[] => {
         const game = this._game;
         game.setWord(word);
 
-        const data = [];
+        const data: Reply[] = [];
 
         if(game.lastLetter !== word[0] && game.lastLetter !== ' ')
         {
@@ -46,6 +47,11 @@ export default class GameService {
         data.push(...game.getNotUsedWord(word));
 
         return data;
+    };
+
+    public readonly clear = () => {
+        this._game = new Game(database);
+        games[this._userId] = new Game(database);
     };
 
     public readonly getWord = () => {

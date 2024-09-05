@@ -22,6 +22,8 @@ class Handler {
         this.createHandler = new CreateHandler(replies, setReplies);
 
         this.set = set;
+
+        new GameApi().clear(user.id);
     };
 
     private readonly Animation = (document: Document) => {
@@ -49,6 +51,8 @@ class Handler {
 
     public readonly Handler = (e: ReactMouseEvent<HTMLElement, MouseEvent>) => {
         const document = e.currentTarget.ownerDocument;
+
+        (e.currentTarget as HTMLButtonElement).disabled = true;
 
         this.Animation(document);
 

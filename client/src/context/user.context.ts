@@ -7,7 +7,7 @@ type UserContextType = {
 };
 
 class UserContext {
-    private _context = createContext<UserContextType>({
+    private readonly _context = createContext<UserContextType>({
         setUser: () => {},
     });
 

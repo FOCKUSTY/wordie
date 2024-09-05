@@ -26,8 +26,18 @@ class Component extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
 
-        this.sendHandler = new SendHandler(props.setReplies, props.user);
+        this.sendHandler = new SendHandler(props.setter, props.user, props.replies);
         this.onclickHandler = new OnclickHandler(props.styles, props.replies, props.user, props.set, props.setter);
+    };
+
+    public componentDidMount (): void {
+        document.addEventListener('keydown', (e) => {
+            if(e.key !== 'Enter')
+                return;
+
+            if(e.shiftKey)
+                this.sendHandler.Send(document);
+        });
     };
 
     private readonly GameStart = () => {
@@ -61,11 +71,15 @@ class Component extends React.Component<Props> {
                         </div>
                     </div>
                     <div className={this.props.styles.output_section}>
-                        <span>Вывод бота:</span>
+                        <span>История:</span>
                         <div id={this.props.styles.bot_output} className={this.props.styles.text}>
                             {
                                 this.props.replies.map(reply => reply.type === 'bot'
-                                    ? <div><span>{reply.name}:</span><span>{reply.text}</span></div>
+                                    ? <div><span>{reply.name}:</span><span>{reply.text.split('').map((_v, i) =>
+                                        i === 0
+                                            ? reply.text.split('')[0].toLocaleUpperCase()
+                                            : reply.text[i]).join('')}
+                                            </span></div>
                                     : <></>
                                 )
                             }
@@ -83,6 +97,8 @@ class Component extends React.Component<Props> {
                             placeholder="Ваше сообщение"
                             id={this.props.styles.write}
                             name="word"
+                            onInput={(e) =>
+                                e.currentTarget.value = e.currentTarget.value.replace('\n', '').replace(' ', '')}
                         ></textarea>
 
                         <input

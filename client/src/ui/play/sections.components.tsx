@@ -45,32 +45,10 @@ class Component extends React.Component<Props> {
         );
     };;
 
-    private readonly history = () => {
-        return (
-            <section id={this.props.styles.section_component} className={this.props.styles.component}>
-                <div id={this.props.styles.history}>
-                    <h3 id={this.props.styles.history_title}>Здесь будет история сообщений</h3>
-                    <div id={this.props.styles.history_content}>
-
-                    </div>
-                </div>
-
-                <div className={`${this.props.styles.content} ${this.props.styles.child}`}>
-                    <button onClick={(e) => this.onclickHandler.Handler(e, 'nothing')}>
-                        <span>Закрыть</span>
-                    </button>
-                </div>
-            </section>
-        );
-    };
-
     public readonly render = () => {
-        if(this.props.section === 'nothing')
-            return <></>;
-        
         return this.props.section === 'rules'
             ? this.rules()
-            : this.history();
+            : <></>;
     };
 };
 

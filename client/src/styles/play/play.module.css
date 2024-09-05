@@ -109,11 +109,15 @@
     width: 100%;
     
     padding: 30px 20px;
+
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 #output .output_section {
     height: 100%;
     width: 100%;
+    min-width: 200px;
 
     border-radius: 20px;
 
@@ -147,7 +151,7 @@
 
 .text div span {
     white-space: normal;
-    word-break: break-all;
+    word-break: break-word;
     
     margin: 0 5px 0 0;
 }
@@ -172,6 +176,8 @@
 
     padding: 10px 20px;
     margin: 0 10px;
+
+    overflow: hidden;
 }
 
 #send_writed {
