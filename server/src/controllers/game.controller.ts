@@ -1,18 +1,13 @@
 import { Response, Request } from "express";
-
 import GameService from "../services/game.service";
-import UserDatabase from "../database/schema/user.schema";
 
 export default class GameController {
-    constructor(){};
+    constructor() {};
 
-    public postWord = async (req: Request, res: Response) => {
+    public postWord = (req: Request, res: Response) => {
         try {
-            const userId: string|undefined = (await UserDatabase.findById(req.body.userId))?.discordId;
+            const userId: string = req.body.userId;
             const word = req.body.word;
-
-            if(!userId)
-                return res.status(400).send({msg: 'Error'});
 
             const service = new GameService(userId);
             
@@ -30,17 +25,14 @@ export default class GameController {
 
     public getWord = (req: Request, res: Response) => {
         try {
-            const userId: string|undefined = req.body.userId;
-            console.log(userId, req.body, req.user);
-
-            if(!userId)
-                return res.status(400).send({msg: 'Error'});
+            const userId: string = req.body.userId;
 
             const service = new GameService(userId);
 
             setTimeout(() => {
                 const word = service.getWord();
-                    res.send({msg: word});
+    
+                res.send({msg: word});
             }, 1000);
         } catch (err) {
             console.error(err);
