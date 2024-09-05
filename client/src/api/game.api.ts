@@ -1,4 +1,4 @@
-import { Reply } from "@/utility/types/play/reply.type";
+import type { Reply } from "@/utility/types/play/reply.type";
 import Api from "./api";
 import axios from "axios";
 
