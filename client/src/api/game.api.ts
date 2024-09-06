@@ -7,7 +7,7 @@ const api = new Api()
 export default class GameApi {
     public readonly postWord = async (word: string, userId: string) => {
         try {
-            const { data } = await axios.post<{msg: Reply[]}>(`${api.url}/game/word`, { word: word, userId });
+            const { data } = await axios.post<{msg: Reply[]}>(`${api.url}/game/word/${userId}`, { word: word });
 
             return data.msg;
         } catch (err) {
@@ -17,7 +17,7 @@ export default class GameApi {
     
     public readonly getWord = async (userId: string) => {
         try {
-            const { data } = await axios.get<{msg: Reply[]}>(`${api.url}/game/word`, { data: { userId }});
+            const { data } = await axios.get<{msg: Reply[]}>(`${api.url}/game/word/${userId}`);
 
             return data.msg;
         } catch (err) {
@@ -28,7 +28,7 @@ export default class GameApi {
 
     public readonly clear = async (userId: string) => {
         try {
-            const { data } = await axios.delete(`${api.url}/game/word`, { data: { userId } });
+            const { data } = await axios.delete(`${api.url}/game/word/${userId}`);
 
             return data.msg;
         }

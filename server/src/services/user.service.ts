@@ -8,7 +8,7 @@ class UserService {
             return null;
 
         return {
-            id: user.id,
+            id: user.discordId,
             username: user.username,
             avatarUrl: user.avatar_url,
             globalName: user.global_name

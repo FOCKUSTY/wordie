@@ -6,6 +6,7 @@ config();
 class Api {
     public readonly env = process.env;
     public readonly url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
+    public readonly client_url = `${process.env.NEXT_PUBLIC_CLIENT_URL}`
 
     public readonly validateCookies = (ctx?: GetServerSidePropsContext) => {
         if(!ctx)

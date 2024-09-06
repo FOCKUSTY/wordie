@@ -1,6 +1,9 @@
+import { config } from "dotenv";
 import { Reply } from "types/game.types";
 import Database from "../database/logic/word.logic";
 import Game from "../types/game.class";
+
+config();
 
 const database = new Database();
 const games: { [key: string]: Game } = {};
@@ -10,10 +13,10 @@ export default class GameService {
     private _game: Game;
     private admin: boolean = false;
 
-    constructor(userId: string, admin: boolean = false) {
+    constructor(userId: string) {
         this._userId = userId;
         this._game = games[userId];
-        this.admin = admin;
+        this.admin = (userId === process.env.AUTHOR_DISCORD_ID);
 
         this.init();
     };
@@ -25,8 +28,8 @@ export default class GameService {
             this._game = game;
         }
         else {
-            this._game = new Game(database);
-            games[this._userId] = new Game(database);  
+            this._game = new Game(database, this.admin);
+            games[this._userId] = new Game(database, this.admin);
         };
     };
 
@@ -50,8 +53,8 @@ export default class GameService {
     };
 
     public readonly clear = () => {
-        this._game = new Game(database);
-        games[this._userId] = new Game(database);
+        this._game = new Game(database, this.admin);
+        games[this._userId] = new Game(database, this.admin);
     };
 
     public readonly getWord = () => {

@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import { ReactElement, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import UserApi from "@/api/user.api";
 
@@ -16,6 +17,7 @@ import Layout from "@/ui/layout.ui";
 
 import styles from '../../styles/play/play.module.css';
 
+
 type Props = {
     user: User
 };
@@ -24,6 +26,8 @@ const Page: NextPageWithLayout<Props> = ({ user }) => {
     let [ component, setComponent ] = useState<'rules'|'nothing'>('nothing');
     let [ game, setGame ] = useState<boolean>(false);
     const [ replies, setReplies, setter ] = new State<Reply[]>([]).getState();
+
+    const router = useRouter();
 
     const onclickComponentHandler = new OnclickComponentHandler(setComponent, styles);
 
@@ -48,6 +52,7 @@ const Page: NextPageWithLayout<Props> = ({ user }) => {
                         set={setGame}
                         styles={styles}
                         user={user}
+                        router={router}
                         replies={replies}
                         setReplies={setReplies}
                         setter={setter}
@@ -64,7 +69,7 @@ Page.getLayout = (page: ReactElement) => {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const user = await new UserApi().getUser(ctx);
-    
+
     return { props: { user } };
 };
 

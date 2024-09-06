@@ -14,8 +14,9 @@ class Game {
     private _lastLetter: string = ' ';
     private _addLetterToDB = false;
 
-    constructor(database?: Database) {
+    constructor(database?: Database, admin: boolean=false) {
         this._data = database;
+        this._addLetterToDB = admin;
 
         this.init();
     };
@@ -77,7 +78,7 @@ class Game {
         const lastLetter = this.getLastLetter(randomWord);
         this._lastLetter = lastLetter;
 
-        return [{
+        const output: Reply[] = [{
                 name: 'Bot', type: 'bot',
                 text: `Хорошо, я начинаю`
             },
@@ -86,6 +87,14 @@ class Game {
                 text: `${randomWord}, тебе на "${lastLetter}"`
             }
         ];
+
+        if(this._addLetterToDB)
+            output.unshift({
+                name: 'System', type: 'bot',
+                text: 'Здравствуй, Владелец !'
+            })
+
+        return output
     };
 
     public getNotUsedWord = (word: string): Reply[] => {

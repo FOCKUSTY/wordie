@@ -5,6 +5,7 @@ import UserComponent from "@/ui/user.components";
 import OnclickHandler from "@/utility/handlers/play/onclick-start.handler";
 import SendHandler from "@/utility/handlers/play/send.handler";
 
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import type { User } from "@/utility/types/user.types";
 import type { Reply } from "@/utility/types/play/reply.type";
 
@@ -13,6 +14,7 @@ type Props = {
     styles: any;
     game: boolean;
     user: User;
+    router: AppRouterInstance
 
     replies: Reply[];
     setReplies: (replies: Reply[]) => void;
@@ -46,7 +48,12 @@ class Component extends React.Component<Props> {
                 <UserComponent styles={this.props.styles} user={this.props.user}></UserComponent>
                 
                 <div className={this.props.styles.buttons}>
-                    <button onClick={(e) => this.onclickHandler.Handler(e)}>
+                    <button onClick={(e) => {
+                            if(!this.props.user)
+                                return this.props.router.push('/');
+
+                            this.onclickHandler.Handler(e)
+                        }}>
                         <span>Начать игру</span>
                     </button>
                 </div>

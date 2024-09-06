@@ -6,7 +6,7 @@ export default class GameController {
 
     public postWord = (req: Request, res: Response) => {
         try {
-            const userId: string = req.body.userId;
+            const userId: string = req.params.userId;
             const word = req.body.word;
 
             const service = new GameService(userId);
@@ -25,7 +25,7 @@ export default class GameController {
 
     public getWord = (req: Request, res: Response) => {
         try {
-            const userId: string = req.body.userId;
+            const userId: string = req.params.userId;
 
             const service = new GameService(userId);
 
@@ -43,7 +43,7 @@ export default class GameController {
 
     public clear = (req: Request, res: Response) => {
         try {
-            new GameService(req.body.userId).clear();
+            new GameService(req.params.userId).clear();
 
             res.status(200).send({msg: 'Success'});
         }
