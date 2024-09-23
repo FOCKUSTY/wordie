@@ -11,18 +11,18 @@ class UserContext {
         setUser: () => {},
     });
 
-    public getContext = () => {
-        const context = useContext(this._context);
-
-        return context;
-    };
-
     public setContext = (user?: User) => {
         const { setUser } = useContext(this._context);
 
         useEffect(() => {
             setUser(user);
         }, []);
+    };
+
+    public getContext = () => {
+        const context = useContext(this._context);
+
+        return context;
     };
 
     get context() {
