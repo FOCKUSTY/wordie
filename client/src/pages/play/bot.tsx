@@ -17,7 +17,6 @@ import Layout from "@/ui/layout.ui";
 
 import styles from '../../styles/play/play.module.css';
 
-
 type Props = {
     user: User
 };

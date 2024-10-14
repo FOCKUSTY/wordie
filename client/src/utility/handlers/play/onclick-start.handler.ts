@@ -68,14 +68,14 @@ class Handler {
                 if(!replies)
                     return;
     
+                console.log(replies);
+
                 this.createHandler.Handler(replies);
             }, 3000);
     
             setTimeout(() => {
                 this.set(true);
-            }, 1000);
-    
-            e.preventDefault();
+            }, 1000);    
         }
         catch (err) {
             return console.log(err);

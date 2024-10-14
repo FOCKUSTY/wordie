@@ -53,19 +53,19 @@ class Handler {
 
         const data = await gameApi.postWord(word, this.user.id);
 
+        console.log(data);
+
         if(!data)
             return;
 
         for(const value of data)
-            if(value.text.includes('Конец игры, я не смог найти слова... Ты победил'))
+            if(value?.text?.includes('Конец игры, я не смог найти слова... Ты победил'))
                 btn.disabled = true;  
 
         this.createHandler.Handler(data);
     };
 
     public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {        
-        e.preventDefault();
-
         const document: any = e.currentTarget.ownerDocument;
 
         if(!e.currentTarget.disabled)
