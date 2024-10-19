@@ -1,12 +1,10 @@
-import { config } from 'dotenv';
+import config from '../../config.json';
 import { GetServerSidePropsContext } from 'next';
-
-config();
 
 class Api {
     public readonly env = process.env;
-    public readonly url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
-    public readonly client_url = `${process.env.NEXT_PUBLIC_CLIENT_URL}`
+    public readonly url = `${config.server_url}/api`;
+    public readonly client_url = `${config.client_url}`;
 
     public readonly validateCookies = (ctx?: GetServerSidePropsContext) => {
         if(!ctx)
