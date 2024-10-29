@@ -9,7 +9,6 @@ music/
 node_modules/
 names.json
 ideadb.sqlite
-config.json
 config.yml
 hasing.ts
 
