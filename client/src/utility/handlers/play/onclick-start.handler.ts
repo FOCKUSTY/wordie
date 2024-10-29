@@ -6,7 +6,7 @@ import GameApi from "@/api/game.api";
 import { User } from "@/utility/types/user.types";
 
 import CreateHandler from "../global/create.handler";
-import PS from '../../../styles/play/play.module.css';
+import PS from "../../../styles/play/play.module.css";
 
 class Handler {
 	private readonly styles: any;

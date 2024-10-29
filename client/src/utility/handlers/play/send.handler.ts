@@ -7,7 +7,7 @@ import { User } from "@/utility/types/user.types";
 
 import CreateHandler from "../global/create.handler";
 
-import PS from '../../../styles/play/play.module.css';
+import PS from "../../../styles/play/play.module.css";
 
 const gameApi = new GameApi();
 
@@ -78,8 +78,8 @@ class Handler {
 		const bot = document.getElementById(PS.bot_output) as HTMLElement;
 		const game = document.getElementById(PS.game_output) as HTMLElement;
 
-		bot.scrollTo({top: bot.scrollHeight, behavior: 'smooth'});
-		game.scrollTo({top: game.scrollHeight, behavior: 'smooth'});
+		bot.scrollTo({ top: bot.scrollHeight, behavior: "smooth" });
+		game.scrollTo({ top: game.scrollHeight, behavior: "smooth" });
 	};
 
 	public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {
