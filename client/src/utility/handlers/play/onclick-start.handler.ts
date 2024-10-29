@@ -6,6 +6,7 @@ import GameApi from "@/api/game.api";
 import { User } from "@/utility/types/user.types";
 
 import CreateHandler from "../global/create.handler";
+import PS from '../../../styles/play/play.module.css';
 
 class Handler {
 	private readonly styles: any;
@@ -70,8 +71,6 @@ class Handler {
 				const replies = await new GameApi().getWord(this.user.id);
 
 				if (!replies) return;
-
-				console.log(replies);
 
 				this.createHandler.Handler(replies);
 			}, 3000);

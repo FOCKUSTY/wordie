@@ -7,6 +7,8 @@ import { User } from "@/utility/types/user.types";
 
 import CreateHandler from "../global/create.handler";
 
+import PS from '../../../styles/play/play.module.css';
+
 const gameApi = new GameApi();
 
 class Handler {
@@ -66,6 +68,18 @@ class Handler {
 				btn.disabled = true;
 
 		this.createHandler.Handler(data);
+
+		setTimeout(() => {
+			this.scroll();
+		}, 200);
+	};
+
+	private readonly scroll = () => {
+		const bot = document.getElementById(PS.bot_output) as HTMLElement;
+		const game = document.getElementById(PS.game_output) as HTMLElement;
+
+		bot.scrollTo({top: bot.scrollHeight, behavior: 'smooth'});
+		game.scrollTo({top: game.scrollHeight, behavior: 'smooth'});
 	};
 
 	public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {
@@ -76,7 +90,7 @@ class Handler {
 
 		e.currentTarget.disabled = true;
 
-		this.Send(document);
+		await this.Send(document);
 	};
 }
 
