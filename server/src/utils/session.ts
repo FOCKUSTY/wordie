@@ -9,7 +9,7 @@ class Session {
 	private _resave: boolean = false;
 	private _saveUninitialized: boolean = false;
 	private _cookie: { maxAge: number } = { maxAge: 60000 * 60 * 24 * 7 };
-	private _mongo_url: string = "mongodb://127.0.0.1/pet";
+	private _mongo_url: string = process.env.MONGO_URL || "mongodb://127.0.0.1/pet";
 
 	constructor(
 		secret: string,
