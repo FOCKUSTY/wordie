@@ -1,168 +1,172 @@
 import Database from "../database/logic/word.logic";
-import { Random } from 'random-js';
+import { Random } from "random-js";
 import { Reply } from "./game.types";
 
 const data = new Database();
 const random = new Random();
 
 class Game {
-    private readonly _exceptions: [string, string, string] = [ 'ь', 'ъ', 'ы' ];
-    private _notUsedWords: string[] = [];
-    private _usedWords: string[] = [];
-    private _allWords: string[] = [];
-    private _data?: Database;
-    private _lastLetter: string = ' ';
-    private _addLetterToDB = false;
+	private readonly _exceptions: [string, string, string] = ["ь", "ъ", "ы"];
+	private _notUsedWords: string[] = [];
+	private _usedWords: string[] = [];
+	private _allWords: string[] = [];
+	private _data?: Database;
+	private _lastLetter: string = " ";
+	private _addLetterToDB = false;
 
-    constructor(database?: Database, admin: boolean=false) {
-        this._data = database;
-        this._addLetterToDB = admin;
+	constructor(database?: Database, admin: boolean = false) {
+		this._data = database;
+		this._addLetterToDB = admin;
 
-        this.init();
-    };
+		this.init();
+	}
 
-    private init = async () => {
-        if(!this._data)
-            this._data = data;
+	private init = async () => {
+		if (!this._data) this._data = data;
 
-        this._allWords = await this._data.getWords();
-        this._notUsedWords = await this._data.getWords();
-    };
+		this._allWords = await this._data.getWords();
+		this._notUsedWords = await this._data.getWords();
+	};
 
-    private setUsedWords = (words: string[]) => {
-        this._usedWords = [ ...this._usedWords, ...words ];
-    };
+	private setUsedWords = (words: string[]) => {
+		this._usedWords = [...this._usedWords, ...words];
+	};
 
-    private setNotUsedWord = (word: string) => {
-        this._notUsedWords = this._notUsedWords.filter(value => value != word);
-    };
+	private setNotUsedWord = (word: string) => {
+		this._notUsedWords = this._notUsedWords.filter((value) => value != word);
+	};
 
-    private getLastLetter = (word: string): string => {
-        const lastIndex = word.length-1;
-        const lastLetter = word[lastIndex];
+	private getLastLetter = (word: string): string => {
+		const lastIndex = word.length - 1;
+		const lastLetter = word[lastIndex];
 
-        for(const exception of this._exceptions)
-        {
-            if(lastLetter === exception)
-            {
-                const wordArray = word.split('');
-                wordArray.pop();
+		for (const exception of this._exceptions) {
+			if (lastLetter === exception) {
+				const wordArray = word.split("");
+				wordArray.pop();
 
-                return this.getLastLetter(wordArray.join(''));
-            };
-        };
+				return this.getLastLetter(wordArray.join(""));
+			}
+		}
 
-        return lastLetter;
-    };
+		return lastLetter;
+	};
 
-    public setAdmin(admin: boolean) {
-        this._addLetterToDB = admin;
-    };
+	public setAdmin(admin: boolean) {
+		this._addLetterToDB = admin;
+	}
 
-    public setWord = (word: string) => {
-        if(word.length <= 1)
-            return;
+	public setWord = (word: string) => {
+		if (word.length <= 1) return;
 
-        this.setNotUsedWord(word);
-        this.setUsedWords([word]);
-        
-        if(this._addLetterToDB)
-            data.setWords([word]);
-    };
+		this.setNotUsedWord(word);
+		this.setUsedWords([word]);
 
-    public getWord = (): Reply[] => {
-        const number = random.integer(0, this._notUsedWords.length-1);
-        
-        const randomWord = this._notUsedWords[number];
+		if (this._addLetterToDB) data.setWords([word]);
+	};
 
-        const lastLetter = this.getLastLetter(randomWord);
-        this._lastLetter = lastLetter;
+	public getWord = (): Reply[] => {
+		const number = random.integer(0, this._notUsedWords.length - 1);
 
-        const output: Reply[] = [{
-                name: 'Bot', type: 'bot',
-                text: `Хорошо, я начинаю`
-            },
-            {
-                name: 'Bot', type: 'bot',
-                text: `${randomWord}, тебе на "${lastLetter}"`
-            }
-        ];
+		const randomWord = this._notUsedWords[number];
 
-        if(this._addLetterToDB)
-            output.unshift({
-                name: 'System', type: 'bot',
-                text: 'Здравствуй, Владелец !'
-            })
+		const lastLetter = this.getLastLetter(randomWord);
+		this._lastLetter = lastLetter;
 
-        this.setWord(randomWord);
+		const output: Reply[] = [
+			{
+				name: "Bot",
+				type: "bot",
+				text: `Хорошо, я начинаю`
+			},
+			{
+				name: "Bot",
+				type: "bot",
+				text: `${randomWord}, тебе на "${lastLetter}"`
+			}
+		];
 
-        return output
-    };
+		if (this._addLetterToDB)
+			output.unshift({
+				name: "System",
+				type: "bot",
+				text: "Здравствуй, Владелец !"
+			});
 
-    public getNotUsedWord = (word: string, outputData: Reply[] = []): Reply[] => {
-        let output: Reply[] = outputData;
+		this.setWord(randomWord);
 
-        const lastIndex = word.length-1;
-        const lastLetter = word[lastIndex];
+		return output;
+	};
 
-        const words = this._notUsedWords.filter((value: string) =>
-            value[0] === lastLetter);
+	public getNotUsedWord = (word: string, outputData: Reply[] = []): Reply[] => {
+		let output: Reply[] = outputData;
 
-        if(words.length === 0) {
-            const nextLetter = word[lastIndex-1];
-            
-            if(!this._exceptions.filter(ex => ex === lastLetter).includes(lastLetter))
-            {
-                output.push({
-                    name: 'Bot', type: 'bot',
-                    text: `Ой, не могу найти слово на "${lastLetter}" перехожу на другую букву (${nextLetter ? nextLetter : 'Кончились буквы'})`
-                });
-                
-                if(word.length <= 1)
-                {
-                    output = [{
-                        name: 'Bot', type: 'bot',
-                        text: 'Конец игры, я не смог найти слова... Ты победил'
-                    }];
+		const lastIndex = word.length - 1;
+		const lastLetter = word[lastIndex];
 
-                    return output;
-                };
-            };
+		const words = this._notUsedWords.filter(
+			(value: string) => value[0] === lastLetter
+		);
 
-            const wordArray = word.split('');
-            wordArray.pop();
+		if (words.length === 0) {
+			const nextLetter = word[lastIndex - 1];
 
-            return this.getNotUsedWord(wordArray.join(''), output);
-        }
-        else {
-            const randomIndex = random.integer(0, words.length-1);
-            const randomWord = random.shuffle(words)[randomIndex];
-    
-            this.setWord(randomWord);
+			if (
+				!this._exceptions.filter((ex) => ex === lastLetter).includes(lastLetter)
+			) {
+				output.push({
+					name: "Bot",
+					type: "bot",
+					text: `Ой, не могу найти слово на "${lastLetter}" перехожу на другую букву (${nextLetter ? nextLetter : "Кончились буквы"})`
+				});
 
-            const lastLetter = this.getLastLetter(randomWord);
-            this._lastLetter = lastLetter;
+				if (word.length <= 1) {
+					output = [
+						{
+							name: "Bot",
+							type: "bot",
+							text: "Конец игры, я не смог найти слова... Ты победил"
+						}
+					];
 
-            output.push({
-                name: 'Bot', type: 'bot',
-                text: `${randomWord}, тебе на "${lastLetter}"`
-            });
+					return output;
+				}
+			}
 
-            return output;
-        };
-    };
+			const wordArray = word.split("");
+			wordArray.pop();
 
-    get lastLetter(): string {
-        return this._lastLetter;
-    };
+			return this.getNotUsedWord(wordArray.join(""), output);
+		} else {
+			const randomIndex = random.integer(0, words.length - 1);
+			const randomWord = random.shuffle(words)[randomIndex];
 
-    get usedWords(): string[] {
-        return this._usedWords;
-    };
+			this.setWord(randomWord);
 
-    get allWords(): string[] {
-        return this._allWords;
-    };
-};
+			const lastLetter = this.getLastLetter(randomWord);
+			this._lastLetter = lastLetter;
+
+			output.push({
+				name: "Bot",
+				type: "bot",
+				text: `${randomWord}, тебе на "${lastLetter}"`
+			});
+
+			return output;
+		}
+	};
+
+	get lastLetter(): string {
+		return this._lastLetter;
+	}
+
+	get usedWords(): string[] {
+		return this._usedWords;
+	}
+
+	get allWords(): string[] {
+		return this._allWords;
+	}
+}
 
 export default Game;

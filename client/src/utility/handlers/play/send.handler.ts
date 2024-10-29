@@ -10,69 +10,74 @@ import CreateHandler from "../global/create.handler";
 const gameApi = new GameApi();
 
 class Handler {
-    private readonly alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
-    private readonly user: User;
-    private readonly createHandler: CreateHandler;
+	private readonly alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+	private readonly user: User;
+	private readonly createHandler: CreateHandler;
 
-    constructor(setReplies: (replies: Reply[]) => void, user: User, replies: Reply[]) {
-        this.user = user;
-        this.createHandler = new CreateHandler(replies, setReplies);
-    };
-    
-    private readonly Clear = (el: any, text: string) => {
-        el.value = '';
-        el.placeholder = text;
+	constructor(setReplies: (replies: Reply[]) => void, user: User, replies: Reply[]) {
+		this.user = user;
+		this.createHandler = new CreateHandler(replies, setReplies);
+	}
 
-        return;
-    };
+	private readonly Clear = (el: any, text: string) => {
+		el.value = "";
+		el.placeholder = text;
 
-    public readonly Send = async(document: any) => {
-        const form = document.forms.form_send;
-        
-        if(!form)
-            return;
+		return;
+	};
 
-        const btn = form.elements.submit;
-        const el = form.elements.word;
-        const word: string = el.value.toLowerCase();
+	public readonly Send = async (document: any) => {
+		const form = document.forms.form_send;
 
-        for(const char of word)
-            if(!this.alphabet.includes(char))
-                return this.Clear(el, 'Введите слово на русском языке без пробелов и специальных символов.')
+		if (!form) return;
 
-        if(!word)
-            return this.Clear(el, 'Введите определенное значение.');
-        
-        if(word.length <= 1)
-            return this.Clear(el, 'Введите слово.');
+		const btn = form.elements.submit;
+		const el = form.elements.word;
+		const word: string = el.value.toLowerCase();
 
-        this.createHandler.Handler([{name: this.user.globalName ? this.user.globalName : this.user.username, text: word, type: 'bot'}])
+		for (const char of word)
+			if (!this.alphabet.includes(char))
+				return this.Clear(
+					el,
+					"Введите слово на русском языке без пробелов и специальных символов."
+				);
 
-        el.value = '';
-        el.placeholder = 'Ваше слово.';
+		if (!word) return this.Clear(el, "Введите определенное значение.");
 
-        const data = await gameApi.postWord(word, this.user.id);
+		if (word.length <= 1) return this.Clear(el, "Введите слово.");
 
-        if(!data)
-            return;
+		this.createHandler.Handler([
+			{
+				name: this.user.globalName ? this.user.globalName : this.user.username,
+				text: word,
+				type: "bot"
+			}
+		]);
 
-        for(const value of data)
-            if(value?.text?.includes('Конец игры, я не смог найти слова... Ты победил'))
-                btn.disabled = true;  
+		el.value = "";
+		el.placeholder = "Ваше слово.";
 
-        this.createHandler.Handler(data);
-    };
+		const data = await gameApi.postWord(word, this.user.id);
 
-    public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {        
-        const document: any = e.currentTarget.ownerDocument;
+		if (!data) return;
 
-        if(!e.currentTarget.disabled)
-            setTimeout(() => e.currentTarget.disabled = false, 1000);
+		for (const value of data)
+			if (value?.text?.includes("Конец игры, я не смог найти слова... Ты победил"))
+				btn.disabled = true;
 
-        e.currentTarget.disabled = true;
+		this.createHandler.Handler(data);
+	};
 
-        this.Send(document);
-    };
-};
+	public readonly Handler = async (e: FormEvent<HTMLInputElement>) => {
+		const document: any = e.currentTarget.ownerDocument;
+
+		if (!e.currentTarget.disabled)
+			setTimeout(() => (e.currentTarget.disabled = false), 1000);
+
+		e.currentTarget.disabled = true;
+
+		this.Send(document);
+	};
+}
 
 export default Handler;

@@ -1,47 +1,46 @@
 import database from "../schema/words.schema";
 
 class Database {
-    private _words: string[] = [];
-    
-    constructor() {
-        this.init();
-    };
+	private _words: string[] = [];
 
-    private init = async () => {
-        let data = (await database.find({ name: "standart" }))[0];
-        
-        if(!data)
-            data = await database.create({ name: "standart", words: [] });
+	constructor() {
+		this.init();
+	}
 
-        this._words = data.words;
-    };
+	private init = async () => {
+		let data = (await database.find({ name: "standart" }))[0];
 
-    public setWords = async(words: string[]) => {
-        let data = (await database.find({ name: "standart" }))[0];
-        
-        if(!data)
-            data = await database.create({ name: "standart", words: [] });
+		if (!data) data = await database.create({ name: "standart", words: [] });
 
-        for(const word of words) {
-            if(this._words.includes(word))
-                continue;
+		this._words = data.words;
+	};
 
-            this._words.push(word);
-        };
+	public setWords = async (words: string[]) => {
+		let data = (await database.find({ name: "standart" }))[0];
 
-        return await database.updateOne({name: "standart"}, {
-            words: this._words
-        });
-    };
+		if (!data) data = await database.create({ name: "standart", words: [] });
 
-    public getWords = async () => {
-        let data = (await database.find({ name: "standart" }))[0];
-        
-        if(!data)
-            data = await database.create({ name: "standart", words: [] });
+		for (const word of words) {
+			if (this._words.includes(word)) continue;
 
-        return this._words;
-    };
-};
+			this._words.push(word);
+		}
+
+		return await database.updateOne(
+			{ name: "standart" },
+			{
+				words: this._words
+			}
+		);
+	};
+
+	public getWords = async () => {
+		let data = (await database.find({ name: "standart" }))[0];
+
+		if (!data) data = await database.create({ name: "standart", words: [] });
+
+		return this._words;
+	};
+}
 
 export default Database;

@@ -1,1 +1,1 @@
-export type Component = 'rules'|'nothing';
+export type Component = "rules" | "nothing";
