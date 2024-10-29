@@ -53,8 +53,6 @@ class Handler {
 
         const data = await gameApi.postWord(word, this.user.id);
 
-        console.log(data);
-
         if(!data)
             return;
 

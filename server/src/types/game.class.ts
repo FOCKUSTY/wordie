@@ -94,11 +94,13 @@ class Game {
                 text: 'Здравствуй, Владелец !'
             })
 
+        this.setWord(randomWord);
+
         return output
     };
 
-    public getNotUsedWord = (word: string): Reply[] => {
-        let output: Reply[] = [];
+    public getNotUsedWord = (word: string, outputData: Reply[] = []): Reply[] => {
+        let output: Reply[] = outputData;
 
         const lastIndex = word.length-1;
         const lastLetter = word[lastIndex];
@@ -130,7 +132,7 @@ class Game {
             const wordArray = word.split('');
             wordArray.pop();
 
-            return this.getNotUsedWord(wordArray.join(''));
+            return this.getNotUsedWord(wordArray.join(''), output);
         }
         else {
             const randomIndex = random.integer(0, words.length-1);

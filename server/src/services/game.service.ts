@@ -35,6 +35,13 @@ export default class GameService {
 
     public readonly postWord = (word: string): Reply[] => {
         const game = this._game;
+
+        if (game.usedWords.includes(word)) {
+            return [{
+                name: "Game", text: "Введите слово, которого не было", type: 'game'
+            }];
+        };
+
         game.setWord(word);
 
         const data: Reply[] = [];

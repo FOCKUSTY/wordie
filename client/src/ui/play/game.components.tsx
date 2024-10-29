@@ -69,8 +69,7 @@ class Component extends React.Component<Props> {
                         <span>Вывод игры:</span>
                         <div id={this.props.styles.game_output} className={this.props.styles.text}>
                             {
-                                this.props.replies.map(reply => 
-                                    reply.type === 'game'
+                                this.props.replies.map(reply => reply.type === 'game'
                                     ? <div><span>{reply.name}:</span><span>{reply.text}</span></div>
                                     : <></>
                                 )
